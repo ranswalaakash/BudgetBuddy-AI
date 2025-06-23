@@ -1,0 +1,100 @@
+/* Reset some defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Header styling */
+.wallet-header {
+  background-color: #fff;
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 30px;
+}
+
+.back-link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Container for wallet content */
+.wallet-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.wallet-container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+/* Summary section */
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  padding: 12px 18px;
+  background-color: #f2f4f8;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.summary-item:hover {
+  background-color: #e6ecf3;
+}
+
+.label {
+  font-weight: 600;
+  color: #444;
+}
+
+.value {
+  font-weight: bold;
+  color: #000;
+}
+
+/* Specific styling for remaining balance */
+.summary-item.balance .value {
+  color: #28a745; /* Green by default */
+}
+
+@media (max-width: 600px) {
+  .wallet-container {
+    padding: 20px;
+  }
+
+  .summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .value {
+    margin-top: 5px;
+  }
+}

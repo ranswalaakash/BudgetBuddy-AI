@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard - BudgetBuddy AI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="app-name">💼 BudgetBuddy AI</div>
+      <div class="user-info">
+        <span class="username">{{ username }}</span>
+        <a href="/profile" class="profile-link" title="Profile">👤</a>
+        <a href="/logout" class="logout-link" title="Logout">🚪</a>
+      </div>
+    </header>
+
+    <nav class="nav-bar">
+      <a href="{{ url_for('dashboard') }}" class="nav-link active">Dashboard</a>
+      <a href="{{ url_for('wallet') }}" class="nav-link">Wallet</a>
+      <a href="{{ url_for('expense_tracker') }}" class="nav-link"
+        >Expense Tracker</a
+      >
+      <a href="{{ url_for('ai_budget') }}" class="nav-link"
+        >AI Budget Planner</a
+      >
+
+      >
+    </nav>
+
+    <main class="main-content">
+      <!-- Summary cards -->
+      <section class="summary-cards">
+        <div class="card balance-card">
+          <div class="card-title">Current Wallet Balance</div>
+          <div id="total-balance" class="card-value">
+            Rs. {{ total_balance }}
+          </div>
+        </div>
+        <div class="card expenses-card">
+          <div class="card-title">Total Expenses</div>
+          <div id="total-expenses" class="card-value">
+            Rs. {{ total_expenses }}
+          </div>
+        </div>
+        <div class="card income-card">
+          <div class="card-title">Total Income</div>
+          <div id="total-income" class="card-value">Rs. {{ total_income }}</div>
+        </div>
+        <div class="card goal-card">
+          <div class="card-title">Savings Goal</div>
+          <div id="goal-amount" class="card-value">Rs. {{ goal }}</div>
+        </div>
+      </section>
+
+      <!-- Quick Add Expense -->
+      <section class="quick-add-expense">
+        <h2>Quick Add Expense</h2>
+        <form
+          id="quick-add-form"
+          method="POST"
+          action="{{ url_for('add_expense') }}"
+        >
+          <input
+            type="number"
+            name="amount"
+            placeholder="Amount"
+            min="0"
+            step="0.01"
+            required
+          />
+          <input
+            type="text"
+            name="description"
+            placeholder="Description"
+            maxlength="50"
+            required
+          />
+          <!-- Hidden input to let backend know where to redirect -->
+          <input
+            type="hidden"
+            name="return_page"
+            value="{{ 'dashboard' if request.path == '/dashboard' else 'expense_tracker' }}"
+          />
+          <button type="submit">Add Expense</button>
+        </form>
+        <div id="quick-add-message" class="message"></div>
+      </section>
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <!-- Recent Transactions -->
+      <section class="recent-transactions">
+        <h2>Recent Transactions</h2>
+        <ul id="transactions-list">
+          {% for txn in recent_transactions %}
+          <li>
+            <span class="txn-date">{{ txn.date }}</span>
+            <span class="txn-desc">{{ txn.description }}</span>
+            <span class="txn-amount">Rs. {{ txn.amount }}</span>
+          </li>
+          {% else %}
+          <li>No recent transactions</li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <!-- Expense Categories -->
+      <section class="expense-categories">
+        <h2>Expenses by Category</h2>
+        {% for category in categories %}
+        <div class="category-card">
+          <button
+            class="category-toggle"
+            onclick="toggleDropdown('dropdown-{{ loop.index }}', this)"
+            aria-expanded="false"
+            aria-controls="dropdown-{{ loop.index }}"
+          >
+            {{ category.name }} (Rs. {{ category.total }})
+            <span class="arrow">▼</span>
+          </button>
+          <ul id="dropdown-{{ loop.index }}" class="dropdown hidden">
+            {% if category["items"] %} {% for item in category["items"] %}
+            <li>
+              <span>{{ item.description or "No Description" }}</span>
+              <span>Rs. {{ item.amount }}</span>
+            </li>
+            {% endfor %} {% else %}
+            <li class="no-items">No expenses yet</li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endfor %}
+      </section>
+
+      <!-- Monthly Progress Bar -->
+      <section class="monthly-progress">
+        <h2>Monthly Budget Progress</h2>
+        <div class="progress-bar-wrapper" aria-label="Monthly budget usage">
+          <div
+            id="progress-bar"
+            class="progress-bar"
+            style="width: {{ budget_usage_percent ~ '%' }};"
+            aria-valuenow="{{ budget_usage_percent }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            role="progressbar"
+          ></div>
+        </div>
+        <p>{{ budget_usage_percent }}% of your budget used</p>
+      </section>
+
+      <!-- AI Suggestions Preview -->
+      <section class="ai-suggestions">
+        <h2>AI Suggestions</h2>
+        <div id="ai-suggestions-container">
+          <p>Loading AI suggestions...</p>
+          <!-- ML-powered suggestions will populate here -->
+        </div>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+  </body>
+</html>

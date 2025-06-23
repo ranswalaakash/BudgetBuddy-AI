@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Expense Tracker - BudgetBuddy AI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="app-name">💼 BudgetBuddy AI</div>
+      <div class="user-info">
+        <span class="username">{{ username }}</span>
+        <a href="/profile" class="profile-link" title="Profile">👤</a>
+        <a href="/logout" class="logout-link" title="Logout">🚪</a>
+      </div>
+    </header>
+
+    <nav class="nav-bar">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/wallet" class="nav-link">Wallet</a>
+      <a href="/expenses" class="nav-link active">Expense Tracker</a>
+      <a href="/ai-planner" class="nav-link">AI Budget Planner</a>
+    </nav>
+
+    <main class="main-content">
+      <h1>Expense Tracker</h1>
+
+      <!-- Reusing Dashboard-style Quick Add Expense form -->
+      <section class="quick-add-expense">
+        <h2>Quick Add Expense</h2>
+        <form
+          id="quick-add-form"
+          method="POST"
+          action="{{ url_for('add_expense') }}"
+        >
+          <input
+            type="number"
+            name="amount"
+            placeholder="Amount"
+            min="0"
+            step="0.01"
+            required
+          />
+          <input
+            type="text"
+            name="description"
+            placeholder="Description"
+            maxlength="50"
+            required
+          />
+          <!-- Hidden input to let backend know where to redirect -->
+          <input
+            type="hidden"
+            name="return_page"
+            value="{{ 'dashboard' if request.path == '/dashboard' else 'expense_tracker' }}"
+          />
+          <button type="submit">Add Expense</button>
+        </form>
+        <div id="quick-add-message" class="message"></div>
+      </section>
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <hr />
+
+      <!-- Display Expenses -->
+      {% for category, data in categories.items() %}
+      <h2>{{ category }} - Total: ₹{{ data.total }}</h2>
+      {% if data['items'] %}
+      <ul>
+        {% for item in data['items'] %}
+        <li>₹{{ item.amount }} - {{ item.description }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No expenses added yet.</p>
+      {% endif %}
+      <hr />
+      {% endfor %}
+    </main>
+  </body>
+</html>

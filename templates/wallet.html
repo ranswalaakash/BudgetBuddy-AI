@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Wallet | BudgetBuddy AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/wallet.css') }}" />
+</head>
+<body>
+  <header class="wallet-header">
+    <nav>
+      <a href="{{ url_for('dashboard') }}" class="back-link">← Back to Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="wallet-container">
+    <h1>Wallet Summary</h1>
+    
+    <section class="summary">
+      <div class="summary-item">
+        <span class="label">Total Income:</span>
+        <span class="value">₹{{ total_income }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Total Expenses:</span>
+        <span class="value">₹{{ total_expenses }}</span>
+      </div>
+      <div class="summary-item balance">
+        <span class="label">Remaining Balance:</span>
+        <span class="value">₹{{ remaining_balance }}</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

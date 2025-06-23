@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Budget Planner - BudgetBuddy AI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/ai-budget.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>AI Budget Planner</h1>
+
+      <form id="budget-form" method="POST" action="{{ url_for('ai_budget') }}">
+        <div class="input-group">
+          <label for="income">Total Monthly Income (Rs):</label>
+          <input type="number" id="income" name="income" min="0" required />
+        </div>
+        <div class="input-group">
+          <label for="rent">Monthly Rent (Rs):</label>
+          <input type="number" id="rent" name="rent" min="0" required />
+        </div>
+        <button type="submit">Get Predictions</button>
+      </form>
+
+      {% if predictions %}
+      <div class="results">
+        <h2>Predicted Budget Breakdown</h2>
+        {% for category, amount in predictions.items() %}
+        <div class="input-group">
+          <label>{{ category }}:</label>
+          <input
+            type="number"
+            step="0.01"
+            value="{{ '%.2f'|format(amount) }}"
+            readonly
+          />
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </body>
+</html>

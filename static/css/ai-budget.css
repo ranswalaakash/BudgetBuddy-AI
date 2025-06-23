@@ -1,0 +1,102 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f8f9fa;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  text-align: center;
+  color: #343a40;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.results {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e9f7ef;
+  border-left: 6px solid #28a745;
+  border-radius: 8px;
+}
+
+.results ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.results li {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+/* Add inside your existing CSS */
+
+.results form .input-group {
+  margin-bottom: 15px;
+}
+
+.results form label {
+  font-weight: 600;
+  color: #155724; /* a darker green to match .results theme */
+  margin-bottom: 6px;
+}
+
+.results form input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #28a745; /* green border */
+  border-radius: 6px;
+  background-color: #d4edda; /* light green background */
+  font-weight: 600;
+  color: #155724;
+}
+
+.results form button {
+  background-color: #28a745;
+  margin-top: 10px;
+}
+
+.results form button:hover {
+  background-color: #1e7e34;
+}
